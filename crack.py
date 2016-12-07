@@ -1,4 +1,5 @@
 from PIL import Image
+import os
 
 im = Image.open("captcha.gif")
 print(im.mode)
@@ -37,7 +38,7 @@ letters = []
 print(im2.size[0])
 print(im2.size[1])
 
-# 沿y轴切割
+# 沿y轴切割,获得每个字母开始和结束的x轴坐标值
 for y in range(im2.size[0]):
     for x in range(im2.size[1]):
         pix = im2.getpixel((y, x))
@@ -55,6 +56,16 @@ for y in range(im2.size[0]):
     inletter = False
 print(letters)
 
+# 加载训练集
+imageSet = []
+iconset = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k',
+           'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
+
+for icon in iconset:
+    for img in os.listdir('./iconset/%s/' % (icon)):
+        temp = []
+
+# 根据坐标值切割图片
 count = 0
 for letter in letters:
     im3 = im2.crop((letter[0], 0, letter[1], im2.size[1]))
